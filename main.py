@@ -1,7 +1,7 @@
 from utils import parser, CustomListener
 import sys
 
-with CustomListener(count_limit=1024) as listener:
+with CustomListener(count_limit=10) as listener:
     try:
         listener.join()
     except KeyboardInterrupt:

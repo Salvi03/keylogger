@@ -1,3 +1,5 @@
 keylogger/
 .idea/
 __pycache__/
+utils/*.log
+*.log

@@ -29,10 +29,13 @@ class CustomListener(Listener):
 
     def on_press(self, key: Key):
         try:
-            self.cache += key.char
+            self.cache += str(key.char)
         except AttributeError:
-            if str(key) == "Key.space":
+            k = str(key)
+            if k == "Key.space":
                 self.cache += " "
+            else:
+                self.cache += f" { k } "
 
         if self.count():
             print(self.cache)
