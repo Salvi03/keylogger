@@ -4,12 +4,12 @@ import os
 
 def setlog(path):
 
-    if not os.path.isfile(path):
-        file = open(path, "w")
+    if not os.path.isfile(f"{ path }/file.log"):
+        file = open(f"{ path }/file.log", "w")
         file.close()
 
     logger = logging.getLogger()
-    file_handler = logging.FileHandler(path)
+    file_handler = logging.FileHandler(f"{ path }/file.log")
     formatter = logging.Formatter("%(message)s")
 
     file_handler.setLevel(logging.INFO)
